@@ -1,20 +1,19 @@
-# Use the official Node.js image as the base image
-FROM node:18
+# Use Node.js v14
+FROM node:14
 
-# Set the working directory in the container
-WORKDIR /app
+# Create app directory
+WORKDIR /usr/src/app
 
-# Copy the application files into the working directory
-COPY . /app
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
 
-# Install the application dependencies
 RUN npm install
 
-# Build the React application
-RUN npm run build
+# Bundle app source
+COPY . .
 
-# Expose port 3000
+# Expose the port
 EXPOSE 3000
 
-# Define the entry point for the container
-CMD ["npm", "start"]
+CMD [ "node", "app.js" ]
